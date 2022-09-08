@@ -1,9 +1,8 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class createUser1662629920489 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
         CREATE TABLE "user" (
             "uid" UUID NOT NULL,
             "email" VARCHAR(100) NOT NULL,
@@ -15,11 +14,10 @@ export class createUser1662629920489 implements MigrationInterface {
             CONSTRAINT "uni_m_nickname" UNIQUE ("nickname")
         )
     `);
-        await queryRunner.query(`CREATE UNIQUE INDEX "uni_user_email" ON users(email)`);
-    }
+    await queryRunner.query(`CREATE UNIQUE INDEX "uni_user_email" ON users(email)`);
+  }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`DROP TABLE user`);
-    }
-
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`DROP TABLE user`);
+  }
 }

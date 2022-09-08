@@ -1,9 +1,8 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class createTag1662629936971 implements MigrationInterface {
-
-    public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
         CREATE TABLE "tag" (
             "id" SERIAL NOT NULL,
             "creator" uuid,
@@ -13,10 +12,9 @@ export class createTag1662629936971 implements MigrationInterface {
             CONSTRAINT "uni_m_id" UNIQUE ("id")
         )
     `);
-    }
+  }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`DROP TABLE tag`);
-    }
-
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`DROP TABLE tag`);
+  }
 }

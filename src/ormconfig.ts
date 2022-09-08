@@ -1,6 +1,5 @@
 import { ConnectionOptions } from "typeorm";
 
-
 const db_logging = process.env["DATABASE_LOGGING"] === "true";
 
 const config: ConnectionOptions = {
