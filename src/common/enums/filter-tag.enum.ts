@@ -1,4 +1,4 @@
 export enum FilterTag {
-  ByName = "name",
-  ByOrder = "sortOrder",
+  ByName = "sortByName",
+  ByOrder = "sortByOrder",
 }

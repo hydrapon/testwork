@@ -56,10 +56,10 @@ export class TagService {
     const query = this.tagRepository.createQueryBuilder("t").leftJoinAndSelect("t.creator", "c");
 
     if (Object.keys(filter).includes(FilterTag.ByName)) {
-      query.orderBy(`t.${FilterTag.ByName}`);
+      query.orderBy(`t.name`);
     }
     if (Object.keys(filter).includes(FilterTag.ByOrder)) {
-      query.orderBy(`t.${FilterTag.ByOrder}`);
+      query.orderBy(`t.sortOrder`);
     }
     const count = await query.getCount();
 
