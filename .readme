@@ -1,0 +1,21 @@
+# Тестовое задание
+
+## Настройка конфигурационного .env файла
+
+### Базовые настройки
+`PORT = 3000` - Порт запуска приложения
+`SWAGGER = enabled` - `enabled` для включения Swagger
+`PASSWORD_SALT_ROUNDS = 10` SALT для шифрования пароля
+
+### Postgres Database
+`DATABASE_CONNECTION_STRING = postgresql://[user[:password]@][netloc][:port][/dbname]` - строка подключения к базе данных  
+`DATABASE_LOGGING = false` - Логирование запросов в консоли
+
+### JWT
+`JWT_SECRET_KEY = MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjxssPA7lXyNYsYaap6Uig9Y6dOmHAWRRpFv1MsIyq` - Ключ шифрования токенов  
+`ACCESS_TOKEN_TTL = 1800` - Время жизни access_token  
+
+## Запуск проекта
+`yarn` - Установка пакетов
+`yarn migration:run` - Запуск миграций
+`yarn start` - Запуск проекта
