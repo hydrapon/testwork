@@ -1,13 +1,11 @@
-import { IsEmail, IsNotEmpty, IsString, Matches, MaxLength, MinLength } from "class-validator";
-import { PasswordHash } from "src/common/utils/password-hashing.service";
-import { UserEntity } from "src/models/user.entity";
-import { v4 as uuidv4 } from "uuid";
+import { IsEmail, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator";
 
-export class CreateUserRequestDto {
+export class UpdateUserRequestDto {
   @IsString({ message: "Email должен быть строкой" })
   @IsNotEmpty({ message: "Email не может быть пустым" })
   @IsEmail({}, { message: "Неверный формат email" })
-  readonly email: string;
+  @IsOptional()
+  readonly email?: string;
 
   @IsString({ message: "Пароль должен быть строкой" })
   @IsNotEmpty({ message: "Пароль не может быть пустым" })
@@ -16,18 +14,11 @@ export class CreateUserRequestDto {
   @Matches(/((?=.*\d))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
     message: "Пароль должен содержать буквы латинского языка и цифры, а так же содержать строчные и прописные буквы",
   })
-  public password: string;
+  @IsOptional()
+  public password?: string;
 
   @IsString({ message: "Никнейм должен быть строкой" })
   @IsNotEmpty({ message: "Никнейм не может быть пустым" })
-  readonly nickname: string;
-
-  static async MapToEntity(createUserRequestDto: CreateUserRequestDto) {
-    const user = new UserEntity();
-    user.email = createUserRequestDto.email;
-    user.nickname = createUserRequestDto.nickname;
-    user.password = await PasswordHash.generatePasswordHash(createUserRequestDto.password);
-    user.uid = await uuidv4();
-    return user;
-  }
+  @IsOptional()
+  readonly nickname?: string;
 }

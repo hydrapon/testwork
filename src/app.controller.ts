@@ -1,4 +1,4 @@
-import { Response as Res, Request as Req } from "express";
+import { Response as Res } from "express";
 
 import { Body, Controller, HttpStatus, Post, Request, UseGuards, Response } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
@@ -17,12 +17,14 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @ApiOperation({ summary: "Регистрация пользователя" })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ExceptionDto })
   @Post("signin")
   async signin(@Body() createUserRequestDto: CreateUserRequestDto): Promise<TokenReponseDto> {
     return await this.appService.signin(createUserRequestDto);
   }
 
   @ApiOperation({ summary: "Авторизация пользователя" })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionDto })
   @ApiBody({ type: UserCredentialsDto })
   @UseGuards(AuthGuard("local"))
   @Post("login")
@@ -40,8 +42,9 @@ export class AppController {
   }
 
   @ApiOperation({ summary: "Завершение сессии" })
+  @UseGuards(AuthGuard("jwt"))
   @Post("logout")
-  async logout(@Request() req: Req, @Response() res: Res) {
-    res.set({ authorization: req.headers.authorization }).send();
+  async logout(@Response() res: Res) {
+    res.status(HttpStatus.OK).send();
   }
 }

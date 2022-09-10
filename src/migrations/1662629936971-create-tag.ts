@@ -12,6 +12,7 @@ export class createTag1662629936971 implements MigrationInterface {
             CONSTRAINT "uni_m_id" UNIQUE ("id")
         )
     `);
+    await queryRunner.query(`CREATE UNIQUE INDEX "uni_tag_name" ON tag(name)`);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
