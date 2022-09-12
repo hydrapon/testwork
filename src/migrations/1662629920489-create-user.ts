@@ -14,7 +14,7 @@ export class createUser1662629920489 implements MigrationInterface {
             CONSTRAINT "uni_m_nickname" UNIQUE ("nickname")
         )
     `);
-    await queryRunner.query(`CREATE UNIQUE INDEX "uni_user_email" ON users(email)`);
+    await queryRunner.query(`CREATE UNIQUE INDEX "uni_user_uid" ON "user"(uid)`);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
