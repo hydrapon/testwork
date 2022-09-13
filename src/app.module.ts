@@ -6,9 +6,9 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { jwtOptions } from "./auth/options/auth.options";
+import { TagModule } from "./modules/tag/tag.module";
+import { UserModule } from "./modules/user/user.module";
 import * as ormConfig from "./ormconfig";
-import { TagModule } from "./tag/tag.module";
-import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [

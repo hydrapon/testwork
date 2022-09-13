@@ -1,6 +1,5 @@
+import { UserEntity } from "src/models/user.entity";
 import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-
-import { UserEntity } from "./user.entity";
 
 @Index("uni_m_id", ["id"], { unique: true })
 @Index("uni_tag_name", ["name"], { unique: true })

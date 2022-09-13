@@ -4,24 +4,24 @@ import { JwtService } from "@nestjs/jwt";
 import { JwtPayloadDto } from "./auth/dto/jwt-payload.dto";
 import { TokenReponseDto } from "./auth/dto/token.dto";
 import { UserAuthDto } from "./auth/dto/user-auth.dto";
-import { CreateUserRequestDto } from "./user/dto/create-user-request.dto";
-import { UserService } from "./user/user.service";
+import { UserRepository } from "./modules/user/db/user.repository";
+import { CreateUserRequestDto } from "./modules/user/dto/create-user-request.dto";
 
 @Injectable()
 export class AppService {
-  constructor(private readonly jwtService: JwtService, private readonly userService: UserService) {}
+  constructor(private readonly jwtService: JwtService, private readonly userRepository: UserRepository) {}
 
   async signin(createUserRequestDto: CreateUserRequestDto): Promise<TokenReponseDto> {
     const newUserEntity = await CreateUserRequestDto.MapToEntity(createUserRequestDto);
-    const checkEmailUser = await this.userService.findByEmail(createUserRequestDto.email);
+    const checkEmailUser = await this.userRepository.findByEmail(createUserRequestDto.email);
     if (checkEmailUser) {
       throw new BadRequestException("Пользователь с таким Email уже существует");
     }
-    const checkNicknameUser = await this.userService.findByNickname(createUserRequestDto.nickname);
+    const checkNicknameUser = await this.userRepository.findByNickname(createUserRequestDto.nickname);
     if (checkNicknameUser) {
       throw new BadRequestException("Пользователь с таким Nickname уже существует");
     }
-    const newUser = await this.userService.createUser(newUserEntity);
+    const newUser = await this.userRepository.save(newUserEntity);
     return this.generateTokens(new UserAuthDto(newUser.uid, newUser.email));
   }
 
@@ -31,6 +31,11 @@ export class AppService {
 
   async refresh(authUser: UserAuthDto): Promise<TokenReponseDto> {
     return this.generateTokens(authUser);
+  }
+
+  async logout() {
+    const tokenResponse = new TokenReponseDto(this.jwtService.sign({}, { expiresIn: `0m` }));
+    return tokenResponse;
   }
 
   private generateTokens(userAuth: UserAuthDto): TokenReponseDto {

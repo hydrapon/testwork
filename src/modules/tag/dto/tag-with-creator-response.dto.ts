@@ -1,5 +1,6 @@
 import { TagEntity } from "src/models/tag.entity";
-import { UserCreatorDto } from "src/user/dto/user-creator.dto";
+
+import { UserCreatorDto } from "../../user/dto/user-creator.dto";
 
 export class TagWithCreatorResponseDto {
   readonly creator: UserCreatorDto;

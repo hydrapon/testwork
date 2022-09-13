@@ -1,6 +1,5 @@
+import { TagEntity } from "src/models/tag.entity";
 import { Column, Entity, Index, JoinTable, ManyToMany, OneToMany, PrimaryColumn } from "typeorm";
-
-import { TagEntity } from "./tag.entity";
 
 @Index("uni_m_email", ["email"], { unique: true })
 @Index("uni_m_nickname", ["nickname"], { unique: true })

@@ -9,7 +9,7 @@ import { TokenReponseDto } from "./auth/dto/token.dto";
 import { UserCredentialsDto } from "./auth/dto/user-credentials.dto";
 import { IUserAuthRequest } from "./auth/interfaces/user-auth-request.interface";
 import { ExceptionDto } from "./common/dto/exception.dto";
-import { CreateUserRequestDto } from "./user/dto/create-user-request.dto";
+import { CreateUserRequestDto } from "./modules/user/dto/create-user-request.dto";
 
 @ApiTags("App")
 @Controller("")
@@ -45,6 +45,10 @@ export class AppController {
   @UseGuards(AuthGuard("jwt"))
   @Post("logout")
   async logout(@Response() res: Res) {
-    res.status(HttpStatus.OK).send();
+    const token = await this.appService.logout();
+    res
+      .set({ authorization: `Bearer ${token.token}` })
+      .status(HttpStatus.CREATED)
+      .send();
   }
 }

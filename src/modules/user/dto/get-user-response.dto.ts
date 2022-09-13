@@ -1,5 +1,6 @@
 import { UserEntity } from "src/models/user.entity";
-import { TagResponseDto } from "src/tag/dto/tag-response.dto";
+
+import { TagResponseDto } from "../../tag/dto/tag-response.dto";
 
 export class GetUserResponseDto {
   readonly email: string;
