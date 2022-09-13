@@ -1,10 +1,11 @@
 import { FilterTag } from "src/common/enums/filter-tag.enum";
-import { In, Repository } from "typeorm";
+import { DeleteResult, In, Repository } from "typeorm";
 
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 
 import { TagEntity } from "../../../models/tag.entity";
+import { FilterRepositoryResponse } from "../dto/filter-repository-response";
 import { FilterTagsRequestDto } from "../dto/filter-tags-request.dto";
 
 @Injectable()
@@ -19,7 +20,7 @@ export class TagRepository {
     return await this.tagRepository.save(tag);
   }
 
-  async findByFilter(filter: FilterTagsRequestDto, withCount: boolean = true) {
+  async findByFilter(filter: FilterTagsRequestDto, withCount: boolean = true): Promise<FilterRepositoryResponse> {
     const take = filter.pageSize || this._DEFAULT_OFFSET;
     let count: number | null = null;
     const query = this.tagRepository.createQueryBuilder("t").leftJoinAndSelect("t.creator", "c");
@@ -48,8 +49,8 @@ export class TagRepository {
     };
   }
 
-  async delete(tag: TagEntity) {
-    await this.tagRepository.delete(tag);
+  async delete(tag: TagEntity): Promise<DeleteResult> {
+    return await this.tagRepository.delete(tag);
   }
 
   async findByName(name: string): Promise<TagEntity | undefined> {
